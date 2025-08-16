@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+#Virtual Environment
+dsp_venv/
+.venv/
+
 # Distribution / packaging
 .Python
 build/
@@ -137,9 +141,7 @@ celerybeat.pid
 # Environments
 .env
 .envrc
-.venv
 env/
-venv/
 ENV/
 env.bak/
 venv.bak/
