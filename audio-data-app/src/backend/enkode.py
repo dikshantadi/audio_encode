@@ -7,7 +7,4 @@ def take_message():
     bitstream = ''.join(format(byte, '08b') for byte in x)
     print(x)
     print(bitstream)
-
-
-
-take_message()
+    return bitstream
