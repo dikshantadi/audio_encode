@@ -2,8 +2,8 @@ from scipy.io import wavfile
 import matplotlib.pyplot as plt 
 import numpy as np 
 
-def fsk_demodulator(wav_file, f0=18500, f1=19500, Tb=0.1):
-    fs, data = wavfile.read('fsk_message.wav')
+def fsk_demodulator(wav_file, f0, f1, Tb):
+    fs, data = wavfile.read(wav_file)
     data = data.astype(float)
     print(f"Sampling rate: {fs} Hz, Length: {len(data)} samples")
 
@@ -42,7 +42,7 @@ def fsk_demodulator(wav_file, f0=18500, f1=19500, Tb=0.1):
     return bitstream, message
 
 if __name__ == "__main__":
-    bits, msg = fsk_demodulator("fsk_message.wav" , f0 = 18500, f1 = 19500, Tb = 0.1 )
+    bits, msg = fsk_demodulator("fsk_message.wav" , f0 = 8000, f1 = 9000, Tb = 0.1 )
     print("Recovered bits:", bits)
     print("Recovered message:", msg)
 
