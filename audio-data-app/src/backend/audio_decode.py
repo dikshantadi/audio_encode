@@ -1,37 +1,50 @@
 from scipy.io import wavfile
-import matplotlib.pyplot as plt 
-import numpy as np 
+import numpy as np
+
+def goertzel(chunk, target_freq, fs):
+    """
+    Compute Goertzel magnitude for a single frequency
+    """
+    N = len(chunk)
+    k = int(0.5 + (N * target_freq) / fs)
+    omega = (2.0 * np.pi * k) / N
+    coeff = 2.0 * np.cos(omega)
+
+    s_prev = 0.0
+    s_prev2 = 0.0
+
+    for sample in chunk:
+        s = sample + coeff * s_prev - s_prev2
+        s_prev2 = s_prev
+        s_prev = s
+
+    magnitude = np.sqrt(s_prev2**2 + s_prev**2 - coeff * s_prev * s_prev2)
+    return magnitude
 
 def fsk_demodulator(wav_file, f0, f1, Tb):
     fs, data = wavfile.read(wav_file)
     data = data.astype(float)
+
     print(f"Sampling rate: {fs} Hz, Length: {len(data)} samples")
 
-    N = int(Tb * fs)
-
     if data.ndim > 1:
-        data = data[:,0]
+        data = data[:,0]  # Use first channel if stereo
 
+    N = int(Tb * fs)
     bitstream = ""
 
-    for i in range (0, len(data), N):
+    for i in range(0, len(data), N):
         chunk = data[i:i+N]
         if len(chunk) < N:
-            break 
-        
-        fft_vals = np.fft.fft(chunk)
-        freqs = np.fft.fftfreq(len(chunk), d = 1/fs)
+            break
 
-        mag = np.abs(fft_vals[:len(chunk)//2])
-        freqs = freqs[:len(chunk)//2]
-        
-        dominant_freq = freqs[np.argmax(mag)]
+        mag0 = goertzel(chunk, f0, fs)
+        mag1 = goertzel(chunk, f1, fs)
 
-        if abs(dominant_freq - f0) < abs(dominant_freq - f1):
-            bitstream += "0"
-        else:
-            bitstream += "1"
-    
+        bit = '0' if mag0 > mag1 else '1'
+        bitstream += bit
+
+    # Convert bitstream to ASCII message
     chars = []
     for i in range(0, len(bitstream), 8):
         byte = bitstream[i:i+8]
@@ -42,12 +55,9 @@ def fsk_demodulator(wav_file, f0, f1, Tb):
     return bitstream, message
 
 if __name__ == "__main__":
-    bits, msg = fsk_demodulator("fsk_message.wav" , f0 = 8000, f1 = 9000, Tb = 0.1 )
+    bits, msg = fsk_demodulator("fsk_message.wav", f0=8000, f1=9000, Tb=0.1)
     print("Recovered bits:", bits)
     print("Recovered message:", msg)
-
-
-
 
 
 

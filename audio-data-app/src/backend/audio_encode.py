@@ -10,7 +10,7 @@ from enkode import take_message
 
 #defining
 fs = 44100 # Sampling frequency
-Tb = 0.1    # bit duration in seconds
+Tb = 0.3    # bit duration in seconds
 f0 = 8000   # Frequency for bit 0 in Hz
 f1 = 9000   # Frequency for bit 1 in Hz 
 
@@ -28,17 +28,18 @@ signal_int16 = np.int16(signal * 32767)
 write("fsk_message.wav", fs, signal_int16)
 print("WAV file saved")
 
-#for noise 
-#sigma = 1
-#noise = np.random.normal(0, sigma, size=len(signal))
-#noisy_signal = signal+ noise
-#noisy_signal = np.clip(noisy_signal, -1, 1)
-#signal_int16 = np.int16(noisy_signal * 32767)
+"""
+for noise 
+sigma = 1
+noise = np.random.normal(0, sigma, size=len(signal))
+noisy_signal = signal+ noise
+noisy_signal = np.clip(noisy_signal, -1, 1)
+signal_int16 = np.int16(noisy_signal * 32767)
 
-#write("fsk_message_noisy.wav", fs, signal_int16)
-#print("Noisy WAV file saved")
+write("fsk_message_noisy.wav", fs, signal_int16)
+print("Noisy WAV file saved")
 
-
+"""
 plt.plot(signal[:1000])
 plt.title("FSK waveform (first few samples)")
 plt.xlabel("Sample")
