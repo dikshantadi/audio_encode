@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io import wavfile
 
-fs, data = wavfile.read("fsk_message.wav")
+fs, data = wavfile.read("output.wav")
 
 plt.specgram(data, NFFT=1024, Fs=fs, noverlap=512, cmap="plasma")
 plt.xlabel("Time (s)")

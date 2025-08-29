@@ -67,7 +67,7 @@ def fsk_demodulator(wav_file, f0, f1, Tb):
     return bitstream, message
 
 if __name__ == "__main__":
-    bits, msg = fsk_demodulator("fsk_message.wav", f0=19000, f1=19500, Tb=0.15)
+    bits, msg = fsk_demodulator("fsk_message.wav", f0=17000, f1=17500, Tb=0.15)
     print("Recovered bits:", bits)
     print("Recovered message:", msg)
 

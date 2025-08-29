@@ -11,8 +11,8 @@ from enkode import take_message
 #defining
 fs = 44100 # Sampling frequency
 Tb = 0.15    # bit duration in seconds
-f0 = 19000   # Frequency for bit 0 in Hz
-f1 = 19500   # Frequency for bit 1 in Hz 
+f0 = 17000   # Frequency for bit 0 in Hz
+f1 = 17500   # Frequency for bit 1 in Hz 
 
 signal = np.array([])
 bitstream = take_message()
